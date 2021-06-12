@@ -159,16 +159,7 @@ for m = 1:6
 end
 
 function [bestFeasible,Woptimal,totalNbrOfEvaluations,bounds,boxes] = functionBRBalgorithm_cvx(H,D,Qsqrt,q,boxesLowerCorners,boxesUpperCorners,weights,delta,epsilon,maxIterations,maxFuncEvaluations,bestFeasible,problemMode,saveBoxes)
-%Maximizes the weighted sum rate or weighted proportional fairness using
-%the Branch-Reduce-and-Bound (BRB) algorithm in Algorithm 3. Both problems
-%are non-convex and NP-hard in general, thus the computational complexity
-%scales exponentially with the number of users, Kr. This implementation is
-%not recommend for more than Kr=6 users.
-%
-%This is version 1.2, Updated 2014-07-23.
-%The implementation utilizes and requires CVX: http://cvxr.com/
-%
-%
+
 %INPUT:
 %H             = Kr x Kt*Nt matrix with row index for receiver and column
 %                index transmit antennas
@@ -508,40 +499,8 @@ y = prod(x.^repmat(w,[1 size(x,2)]),1);
 end
 
 function [finalInterval,WBestBeamforming,nbrOfEvaluations] = functionFairnessProfile_cvx(H,D,Qsqrt,q,delta,lowerPoint,upperPoint,specialMode,specialParam)
-%Solves the fairness-profile optimization (FPO) problem in Example 2.8 in
-%the book:
-%
-%Emil Björnson, Eduard Jorswieck, “Optimal Resource Allocation in
-%Coordinated Multi-Cell Systems,” Foundations and Trends in Communications
-%and Information Theory, vol. 9, no. 2-3, pp. 113-381, 2013.
-%
-%This is a generalization of max-min fairness optimization. The FPO
-%problem searches on a line between LOWERPOINT and UPPERPOINT and finds
-%the intersection between the line and the Pareto boundary of the rate
-%region. The search is based on bisection and solving a power minimization
-%under QoS requirements; for example, as in (2.30).
-%
-%The FPO problem is equivalent to finding (g_1,...,) that solves
-%
-%maximize min_k ( g_k - lowerPoint(k) ) / ( upperPoint(k) - lowerPoint(k) )
-%
-%subject to     g_k >= lowerPoint(k) for all users k,
-%               Power constraints.
-%
-%This problem is quasi-convex, meaning that it can be solved as a short
-%sequence of convex optimization problem. The computational complexity is
-%therefore polynomial in the number of users, antennas, and power
-%constraints. The implementation can, at least, handle 30 users, 50
-%antennas, and 50 power constraints.
-%
-%This is version 1.2. (Last edited: 2014-07-23)
-%
-%License: This code is licensed under the GPLv2 license. If you in any way
-%use this code for research that results in publications, please cite our
-%original article listed above.
-%
-%The implementation utilizes and requires CVX: http://cvxr.com/
-%
+
+
 %INPUT:
 %H           = Kr x Kt*Nt matrix with row index for receiver and column
 %              index transmit antennas
@@ -680,11 +639,7 @@ end
 end
 
 function wMRT = functionMRT(H,D)
-%Calculates the maximum ratio transmission (MRT) beamforming vectors for a
-%scenario where all or a subset of antennas transmit to each user.
-%
-%This is version 1.0.
-%
+
 %INPUT:
 %H  = Kr x Kt*Nt matrix with row index for users and column index
 %     transmit antennas
@@ -717,27 +672,7 @@ for k = 1:Kr
 end
 end
 function [feasible,Wsolution] = functionFeasibilityProblem_cvx(H,D,Qsqrt,q,gammavar)
-%Solves the feasibility problem with quality-of-service (QoS) constraints
-%in (2.29). The implementation is based on the alternative formulation in
-%(2.30): power minimization under QoS requirements.
-%
-%The power minimization under QoS requirements is
-%
-%minimize   betavar
-%subject to SINR_k >= gammavar(k) for all users k,
-%           Power constraints scaled by betavar.
-%
-%If this optimization problem is feasible and betavar<=1, then the 
-%feasibility problem with QoS constraints is also feasible.
-%
-%This optimization problem is convex. The computational complexity is
-%therefore polynomial in the number of users, antennas, and power
-%constraints. The implementation can, at least, handle 30 users, 50
-%antennas, and 50 power constraints.
-%
-%This is version 1.1.
-%The implementation utilizes and requires CVX: http://cvxr.com/
-%
+
 %INPUT:
 %H          = Kr x Kt*Nt matrix with row index for receiver and column
 %             index transmit antennas
